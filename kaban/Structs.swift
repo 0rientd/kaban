@@ -23,6 +23,11 @@ struct cards : View {
     
     @State private var newCardOffset = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 4)
     @State private var doneOffset = CGPoint(x: UIScreen.main.bounds.width / 2, y: (UIScreen.main.bounds.height / 4) - 20)
+    
+    @State private var defaultFrameWidth = CGFloat(175)
+    @State private var defaultFrameHeight = CGFloat(125)
+    @State private var shadow = CGFloat(0)
+    
     @State private var isShowingDetailView = false
     
     var drag: some Gesture {
@@ -31,15 +36,23 @@ struct cards : View {
                 withAnimation(.spring()) {
                     self.newCardOffset = value.location
                     self.newCardColor = Color.blue
+                    
+                    self.defaultFrameWidth = CGFloat(195)
+                    self.defaultFrameHeight = CGFloat(145)
+                    
+                    self.shadow = CGFloat(10)
                 }
             }
             .onEnded { value in
-                if value.location.y > doneOffset.y * 2 {
-                    withAnimation(.easeInOut) {
+                withAnimation(.spring()) {
+                    self.defaultFrameWidth = CGFloat(175)
+                    self.defaultFrameHeight = CGFloat(125)
+                    
+                    self.shadow = CGFloat(0)
+
+                    if value.location.y > doneOffset.y * 2 {
                         self.newCardColor = Color.green
-                    }
-                } else {
-                    withAnimation(.spring()) {
+                    } else {
                         self.newCardColor = Color.red
                     }
                 }
@@ -54,7 +67,8 @@ struct cards : View {
                     .multilineTextAlignment(.center)
             )
             .foregroundColor(newCardColor)
-            .frame(width: 175, height: 125, alignment: .center)
+            .frame(width: self.defaultFrameWidth, height: self.defaultFrameHeight, alignment: .center)
+            .shadow(radius: self.shadow)
             .position(newCardOffset)
             .gesture(
                 drag

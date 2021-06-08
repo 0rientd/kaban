@@ -4,6 +4,8 @@
 //
 //  Created by 0rientd on 04/06/21.
 //
+//
+// CONSERTAR BUG ONDE O SEGUNDO CARD APARECE EMBAIXO
 
 import SwiftUI
 

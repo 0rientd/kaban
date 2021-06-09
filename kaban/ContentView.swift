@@ -10,9 +10,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var Listcards = [structCard]()
+    @State private var listCards = [structCard]()
     @State private var isShowingAddCard = false
     @State private var newCardText = String()
+    
+    @State private var newCardOffset = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 4)
     
     var body: some View {
         ZStack {
@@ -22,17 +24,22 @@ struct ContentView: View {
             
             Text("Você finalizou")
                 .font(.title)
-                .offset()
                 .padding(.top, 50)
             
             VStack {
                 Text("Suas tarefas")
                     .font(.title)
                 
-                ForEach(Listcards, id: \.nome) { nomeCard in
-                    cards(textCard: nomeCard.nome)
+                Spacer()
+            }
+            
+                ForEach(listCards, id: \.nome) { nomeCard in
+                    ZStack {
+                        cards(textCard: nomeCard.nome, newCardOffset: self.newCardOffset)
+                    }
                 }
-                
+             
+            VStack {
                 Spacer()
                 
                 Button("Lembrar de algo") {
@@ -42,7 +49,8 @@ struct ContentView: View {
                     addCardView(newCardText: $newCardText)
                         .onDisappear() {
                             if self.newCardText != "" {
-                                Listcards.append(structCard(nome: self.newCardText, id: UUID()))
+                                listCards.append(structCard(nome: self.newCardText, id: UUID()))
+                                self.newCardText = String()
                             }
                         }
                 }

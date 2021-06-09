@@ -19,9 +19,10 @@ struct structCard {
 //-- Card Function and struct
 struct cards : View {
     @State var textCard : String
+    @State var newCardOffset : CGPoint
+    
     @State private var newCardColor = Color.red
     
-    @State private var newCardOffset = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 4)
     @State private var doneOffset = CGPoint(x: UIScreen.main.bounds.width / 2, y: (UIScreen.main.bounds.height / 4) - 20)
     
     @State private var defaultFrameWidth = CGFloat(175)
@@ -68,6 +69,7 @@ struct cards : View {
             )
             .foregroundColor(newCardColor)
             .frame(width: self.defaultFrameWidth, height: self.defaultFrameHeight, alignment: .center)
+            .shadow(radius: self.shadow)
             .shadow(radius: self.shadow)
             .position(newCardOffset)
             .gesture(
